@@ -7,6 +7,10 @@
   --offwhite: #f8f8f2;
   --yellow: #ffb626;
 
+  --mod: #13a133;
+  --vip: #d91ca8;
+  --broadcaster: #e20f1f;
+
   --grid-unit: 0.5rem;
 
   --font-weight-light: 300;
@@ -33,6 +37,7 @@ body {
   box-sizing: border-box;
   font-family: var(--font-family-main);
   background-position: center;
+  background-color: transparent;
 }
 
 body > * {
