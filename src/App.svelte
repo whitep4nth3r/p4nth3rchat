@@ -1,32 +1,47 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
-	import type { ChatMessageData, MessageQueue } from './types'
+  import { writable } from 'svelte/store';
+  import type { ChatMessageData, MessageQueue } from './types';
+  import { fade } from 'svelte/transition';
 
-	import Event from './Event.svelte'
-	const socket = new WebSocket('ws://localhost:8999');
-	
-	let writeable = writable<ChatMessageData[]>([]);
-	let messageQueue: ChatMessageData[] = [];
-	
-	//TODO use ryan's safe data thing
-	socket.addEventListener("message", (data) => {
-		const eventData = JSON.parse(data.data).data;
-		if(eventData) {
-			writeable.update(messageQueue => [...messageQueue, eventData])
-		}
-	});
+  const MAX_MESSAGE_QUEUE_LENGTH = 6;
 
-	writeable.subscribe((storeValue: ChatMessageData[]) => {
-		messageQueue = storeValue;
-	});
+  import Event from './Event.svelte';
+  const socket = new WebSocket('ws://localhost:8999');
+
+  let writeable = writable<ChatMessageData[]>([]);
+  let messageQueue: ChatMessageData[] = [];
+
+  writeable.update((messageQueue) => [...messageQueue]);
+
+  //TODO use ryan's safe data thing
+  socket.addEventListener('message', (data) => {
+    const newMessage = JSON.parse(data.data).data;
+    if (newMessage) {
+      if (messageQueue.length >= MAX_MESSAGE_QUEUE_LENGTH) {
+        messageQueue.shift();
+      }
+
+      writeable.update((messageQueue) => [...messageQueue, newMessage]);
+    }
+  });
+
+  writeable.subscribe((storeValue: ChatMessageData[]) => {
+    messageQueue = storeValue;
+  });
 </script>
 
-<main>
-	{#each messageQueue.reverse() as event}
-		<Event {event} />
-	{/each}
-</main>
-
 <style>
-
+  .messageQueue {
+    display: flex;
+    flex-direction: column;
+    flex-direction: column-reverse;
+  }
 </style>
+
+<main>
+  <div class="messageQueue">
+    {#each messageQueue as event, index}
+      <Event {event} />
+    {/each}
+  </div>
+</main>
