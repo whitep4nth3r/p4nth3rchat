@@ -1,15 +1,82 @@
 <script lang="ts">
   import type { ChatMessageData } from './types';
+  import { loop_guard } from 'svelte/internal';
+  import sanitizeHtml from 'sanitize-html';
 
   export let event: ChatMessageData;
-  export let isMostRecent: boolean;
 
-  const generateEmoteUrl = (emoteId: string) => {
-    return `https://static-cdn.jtvnw.net/emoticons/v1/${emoteId}/1.0`;
-  };
+  function processChat(event: ChatMessageData) {
+    let tempMessage: string = event.message.replace(/<img/g, '<DEL');
 
-  if (event.emotes) {
+    const emotes = [];
+
+    // If the message has emotes, modify message to include img tags to the emote
+    if (event.emotes) {
+      let emoteSet = [];
+
+      for (const emote of Object.keys(event.emotes)) {
+        const emoteLocations = event.emotes[emote];
+        emoteLocations.forEach((location) => {
+          emoteSet.push(generateEmote(emote, location));
+        });
+      }
+
+      // Order the emotes descending so we can iterate
+      // through them with indexes
+      emoteSet.sort((a, b) => {
+        return b.end - a.end;
+      });
+
+      emoteSet.forEach((emote) => {
+        emotes.push(emote.emoteUrl);
+
+        let emoteMessage = tempMessage.slice(0, emote.start);
+        emoteMessage += emote.emoteImageTag;
+        emoteMessage += tempMessage.slice(emote.end + 1, tempMessage.length);
+        tempMessage = emoteMessage;
+      });
+    }
+
+    tempMessage = sanitizeHtml(tempMessage, {
+      allowedAttributes: {
+        img: ['class', 'src'],
+      },
+      allowedTags: [
+        'marquee',
+        'em',
+        'strong',
+        'b',
+        'i',
+        'code',
+        'strike',
+        'blink',
+        'img',
+      ],
+    });
+
+    tempMessage = tempMessage.replace(/@(\w*)/gm, `<span>$&</span>`);
+
+    return {
+      message: tempMessage,
+      emotes: emotes.map((m) => m.emoteImageTag as string),
+    };
   }
+
+  function generateEmote(emoteId: string, position: string) {
+    const [start, end] = position.split('-').map(Number);
+
+    return {
+      emoteId,
+      emoteImageTag: `<img class='emote' src='https://static-cdn.jtvnw.net/emoticons/v1/${emoteId}/1.0'/>`,
+      emoteUrl: `https://static-cdn.jtvnw.net/emoticons/v1/${emoteId}/1.0`,
+      start,
+      end,
+    };
+  }
+
+  const processedChat = processChat(event);
+
+  console.log(processedChat);
 </script>
 
 <style>
@@ -68,11 +135,15 @@
     font-size: 0.9rem;
     margin-bottom: 1rem;
     color: var(--yellow);
+    font-weight: bold;
   }
 
   .message {
     color: var(--white);
     font-size: 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
   }
 
   .avatarContainer {
@@ -80,7 +151,6 @@
     background-position: center center;
     background-size: cover;
     flex: 0 0 100px;
-    background-size: 150px;
     background-position-y: 50%;
     background-color: var(--black);
   }
@@ -100,7 +170,10 @@
     style={`background-image: url(${event.logoUrl});`} />
 
   <div class="messageContainer">
-    <p class="displayName">{event.displayName}</p>
-    <p class="message">{event.message}</p>
+    <p class="displayName">@{event.displayName}</p>
+
+    <div class="message">
+      {@html processedChat.message}
+    </div>
   </div>
 </div>

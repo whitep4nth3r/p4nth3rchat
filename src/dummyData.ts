@@ -1,4 +1,4 @@
-import { ChatMessageData } from './src/types';
+import type { ChatMessageData } from './types';
 
 const dummyMessage1: ChatMessageData = {
   userId: '469006291',
@@ -35,7 +35,7 @@ const dummyMessage2: ChatMessageData = {
 
 const dummyMessage3: ChatMessageData = {
   displayName: 'Steffi128',
-  emotes: { 555555560: Array(1) },
+  emotes: { 555555560: ['14-27'] },
   isBroadcaster: false,
   isMod: true,
   isSubscriber: false,
@@ -65,3 +65,5 @@ const dummyMessage4: ChatMessageData = {
   userId: '279965339',
   username: 'baldbeardedbuilder',
 };
+
+export { dummyMessage3 };

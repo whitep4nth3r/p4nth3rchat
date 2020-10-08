@@ -1,5 +1,6 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
+  import { dummyMessage3 } from './dummyData';
   import type { ChatMessageData, MessageQueue } from './types';
   import { fade } from 'svelte/transition';
 
@@ -17,9 +18,9 @@
   socket.addEventListener('message', (data) => {
     const newMessage = JSON.parse(data.data).data;
     if (newMessage) {
-      if (messageQueue.length >= MAX_MESSAGE_QUEUE_LENGTH) {
-        messageQueue.shift();
-      }
+      // if (messageQueue.length >= MAX_MESSAGE_QUEUE_LENGTH) {
+      //   messageQueue.shift();
+      // }
 
       writeable.update((messageQueue) => [...messageQueue, newMessage]);
     }
@@ -34,7 +35,8 @@
   .messageQueue {
     display: flex;
     flex-direction: column;
-    flex-direction: column-reverse;
+    position: fixed;
+    bottom: 0;
   }
 </style>
 
