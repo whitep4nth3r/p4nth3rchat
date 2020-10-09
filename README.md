@@ -1,6 +1,6 @@
 # p4nth3rChat
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
@@ -14,6 +14,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://baldbeardedbuilder.com/"><img src="https://avatars2.githubusercontent.com/u/1228996?v=4" width="100px;" alt=""/><br /><sub><b>Michael Jolley</b></sub></a><br /><a href="https://github.com/whitep4nth3r/p4nth3rchat/commits?author=michaeljolley" title="Code">💻</a></td>
+    <td align="center"><a href="https://twitch.tv/MadhouseSteve"><img src="https://avatars1.githubusercontent.com/u/52213009?v=4" width="100px;" alt=""/><br /><sub><b>MadhouseSteve</b></sub></a><br /><a href="https://github.com/whitep4nth3r/p4nth3rchat/commits?author=MadhouseSteve" title="Code">💻</a></td>
   </tr>
 </table>
 
