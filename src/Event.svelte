@@ -75,8 +75,6 @@
   }
 
   const processedChat = processChat(event);
-
-  console.log(processedChat);
 </script>
 
 <style>

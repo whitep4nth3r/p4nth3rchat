@@ -2,6 +2,7 @@
   import { writable } from 'svelte/store';
   import { dummyMessage3 } from './dummyData';
   import type { ChatMessageData, MessageQueue } from './types';
+  import { PermittedEvents } from './types';
   import { fade } from 'svelte/transition';
 
   const MAX_MESSAGE_QUEUE_LENGTH = 6;
@@ -16,13 +17,14 @@
 
   //TODO use ryan's safe data thing
   socket.addEventListener('message', (data) => {
-    const newMessage = JSON.parse(data.data).data;
-    if (newMessage) {
-      // if (messageQueue.length >= MAX_MESSAGE_QUEUE_LENGTH) {
-      //   messageQueue.shift();
-      // }
+    const event = JSON.parse(data.data).event;
 
-      writeable.update((messageQueue) => [...messageQueue, newMessage]);
+    if (event === PermittedEvents.ChatMessage) {
+      const newMessage = JSON.parse(data.data).data;
+
+      if (newMessage) {
+        writeable.update((messageQueue) => [...messageQueue, newMessage]);
+      }
     }
   });
 

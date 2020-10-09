@@ -16,3 +16,7 @@ export interface ChatMessageData {
 }
 
 export type MessageQueue = ChatMessageData[];
+
+export enum PermittedEvents {
+  ChatMessage = 'chatmessage',
+}
