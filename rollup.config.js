@@ -49,7 +49,7 @@ export default {
   },
   plugins: [
     replace({
-      "process.env.MAINFRAME_URL": process.env.MAINFRAME_URL,
+      "process.env.MAINFRAME_URL": `"${process.env.MAINFRAME_URL}"`,
     }),
     svelte({
       // enable run-time checks when not in production
