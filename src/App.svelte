@@ -8,7 +8,7 @@
   const MAX_MESSAGE_QUEUE_LENGTH = 6;
 
   import Event from './Event.svelte';
-  const socket = new WebSocket('ws://localhost:8999');
+  const socket = new WebSocket(process.env.MAINFRAME_URL);
 
   let writeable = writable<ChatMessageData[]>([]);
   let messageQueue: ChatMessageData[] = [];

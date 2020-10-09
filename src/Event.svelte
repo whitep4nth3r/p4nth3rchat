@@ -143,6 +143,27 @@
     color: var(--yellow);
   }
 
+  .displayName-vip {
+    background: linear-gradient(90deg, var(--yellow), var(--vip));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .displayName-mod {
+    background: linear-gradient(90deg, var(--yellow), var(--mod));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .displayName-broadcaster {
+    background: linear-gradient(90deg, var(--yellow), var(--broadcaster));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   .message {
     color: var(--white);
     font-size: 1.2rem;
@@ -176,7 +197,13 @@
     style={`background-image: url(${event.logoUrl});`} />
 
   <div class="messageContainer">
-    <p class="displayName">@{event.displayName}</p>
+    <p
+      class="displayName"
+      class:displayName-vip={event.isVip === true}
+      class:displayName-mod={event.isMod === true}
+      class:displayName-broadcaster={event.isBroadcaster === true}>
+      @{event.displayName}
+    </p>
 
     <div class="message">
       {@html processedChat.message}
