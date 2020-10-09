@@ -49,7 +49,6 @@
         'i',
         'code',
         'strike',
-        'blink',
         'img',
       ],
     });
