@@ -111,6 +111,7 @@
       var(--yellow) 100%
     );
     box-shadow: 0rem 0.6rem 1rem -0.4rem var(--black);
+    border-bottom-right-radius: 0.25rem;
   }
 
   .event-vip {
