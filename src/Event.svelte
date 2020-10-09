@@ -101,15 +101,22 @@
     display: flex;
     flex-direction: row;
     width: 400px;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     border-top: var(--top-border-size) solid;
     border-image-slice: 1;
+    border-image-source: linear-gradient(
+      90deg,
+      var(--yellow) 0%,
+      var(--yellow) 100%
+    );
+    box-shadow: 0rem 0.6rem 1rem -0.4rem var(--black);
   }
 
   .event-vip {
     border-image-source: linear-gradient(
       90deg,
-      var(--black) 0%,
+      var(--yellow) 0%,
       var(--vip) 100%
     );
   }
@@ -117,7 +124,7 @@
   .event-mod {
     border-image-source: linear-gradient(
       90deg,
-      var(--black) 0%,
+      var(--yellow) 0%,
       var(--mod) 100%
     );
   }
@@ -125,17 +132,16 @@
   .event-broadcaster {
     border-image-source: linear-gradient(
       90deg,
-      var(--black) 0%,
+      var(--yellow) 0%,
       var(--broadcaster) 100%
     );
   }
 
   .displayName {
     color: var(--white);
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
     color: var(--yellow);
-    font-weight: bold;
   }
 
   .message {
@@ -144,6 +150,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    word-break: break-word;
   }
 
   .avatarContainer {
