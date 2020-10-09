@@ -1,13 +1,9 @@
 <script lang="ts">
-  import { writable } from 'svelte/store';
-  import { dummyMessage3 } from './dummyData';
-  import type { ChatMessageData, MessageQueue } from './types';
-  import { PermittedEvents } from './types';
-  import { fade } from 'svelte/transition';
-
-  const MAX_MESSAGE_QUEUE_LENGTH = 6;
-
   import Event from './Event.svelte';
+  import { writable } from 'svelte/store';
+  import type { ChatMessageData } from './types';
+  import { PermittedEvents } from './types';
+
   const socket = new WebSocket(process.env.MAINFRAME_URL);
 
   let writeable = writable<ChatMessageData[]>([]);
