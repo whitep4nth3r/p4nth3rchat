@@ -143,6 +143,7 @@
     font-size: 1rem;
     margin-bottom: 1rem;
     color: var(--yellow);
+    font-weight: var(--font-weight-bold);
   }
 
   .displayName-vip {
@@ -168,12 +169,13 @@
 
   .message {
     color: var(--white);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     word-break: break-word;
     line-height: 1.6rem;
+    font-weight: var(--font-weight-normal);
   }
 
   .avatarContainer {
