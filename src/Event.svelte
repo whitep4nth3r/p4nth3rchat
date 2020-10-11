@@ -67,6 +67,8 @@
   function generateEmote(emoteId: string, position: string) {
     const [start, end] = position.split('-').map(Number);
 
+    //todo - if only emote - make 3.0
+
     return {
       emoteId,
       emoteImageTag: `<img class='emote' src='https://static-cdn.jtvnw.net/emoticons/v1/${emoteId}/1.0'/>`,
@@ -177,6 +179,10 @@
     font-weight: var(--font-weight-normal);
   }
 
+  :global(.message-startsWithTag .tag):first-of-type {
+    padding-left: 0;
+  }
+
   .avatarContainer {
     background-repeat: no-repeat;
     background-position: center center;
@@ -220,7 +226,9 @@
       @{event.displayName}
     </p>
 
-    <div class="message">
+    <div
+      class="message"
+      class:message-startsWithTag={processedChat.message.startsWith('<span class="tag">')}>
       {@html processedChat.message}
     </div>
   </div>
