@@ -113,6 +113,19 @@
     );
     box-shadow: 0rem 0.6rem 1rem -0.4rem var(--black);
     border-bottom-right-radius: 0.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  :global(.event-subscriber):after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    bottom: -13px;
+    transform: rotate(45deg);
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid var(--yellow);
   }
 
   .event-vip {
@@ -171,9 +184,7 @@
   .message {
     color: var(--white);
     font-size: 1.4rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    display: inline-block;
     word-break: break-word;
     line-height: 1.6rem;
     font-weight: var(--font-weight-normal);
@@ -204,7 +215,11 @@
   }
 
   :global(.emote) {
-    display: inline;
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-left: -4px;
+    margin-right: -4px;
   }
 </style>
 
@@ -212,7 +227,8 @@
   class="event"
   class:event-vip={event.isVip === true}
   class:event-mod={event.isMod === true}
-  class:event-broadcaster={event.isBroadcaster === true}>
+  class:event-broadcaster={event.isBroadcaster === true}
+  class:event-subscriber={event.isSubscriber}>
   <div
     class="avatarContainer"
     style={`background-image: url(${event.logoUrl});`} />
