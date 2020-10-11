@@ -53,7 +53,10 @@
       ],
     });
 
-    tempMessage = tempMessage.replace(/@(\w*)/gm, `<span>$&</span>`);
+    tempMessage = tempMessage.replace(
+      /@(\w*)/gm,
+      `<span class="tag">$&</span>`
+    );
 
     return {
       message: tempMessage,
@@ -170,6 +173,7 @@
     flex-wrap: wrap;
     align-items: center;
     word-break: break-word;
+    line-height: 1.6rem;
   }
 
   .avatarContainer {
@@ -183,6 +187,17 @@
 
   .messageContainer {
     padding: 1rem;
+    width: 100%;
+  }
+
+  :global(.tag) {
+    color: var(--yellow);
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  :global(.emote) {
+    display: inline;
   }
 </style>
 
