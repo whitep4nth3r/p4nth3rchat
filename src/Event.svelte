@@ -100,7 +100,6 @@
     background-color: var(--black);
     display: flex;
     flex-direction: row;
-    width: 400px;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     border-top: var(--top-border-size) solid;
