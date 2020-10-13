@@ -129,6 +129,17 @@
     border-left: 20px solid var(--yellow);
   }
 
+  :global(.event-broadcaster):after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    bottom: -13px;
+    transform: rotate(45deg);
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid var(--broadcaster);
+  }
+
   .event-vip {
     border-image-source: linear-gradient(
       90deg,
