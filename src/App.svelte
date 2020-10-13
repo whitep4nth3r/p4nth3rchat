@@ -14,23 +14,23 @@
   writeable.update((storeValue) => [...storeValue]);
 
   //TODO use ryan's safe data thing
-  socket.addEventListener('message', (data) => {
-    const event = JSON.parse(data.data).event;
-    if (event === PermittedEvents.ChatMessage) {
-      const newMessage = JSON.parse(data.data).data;
-      if (newMessage) {
-        writeable.update((messageQueue) => {
-          // get only the last
-          const oldMessages = messageQueue.slice(
-            Math.max(messageQueue.length - MAX_MESSAGE_COUNT, 0)
-          );
+  socket.onmessage = (data) => {
+	  const event = JSON.parse(data.data).event;
+	  if (event === PermittedEvents.ChatMessage) {
+		  const newMessage = JSON.parse(data.data).data;
+		  if (newMessage) {
+			  writeable.update((messageQueue) => {
+				  // get only the last
+				  const oldMessages = messageQueue.slice(
+					  Math.max(messageQueue.length - MAX_MESSAGE_COUNT, 0)
+				  );
 
-          // return the new array with last X items + the new one
-          return [...oldMessages, newMessage];
-        });
-      }
-    }
-  });
+				  // return the new array with last X items + the new one
+				  return [...oldMessages, newMessage];
+			  });
+		  }
+	  }
+  };
 
   writeable.subscribe((storeValue: ChatMessageData[]) => {
     console.log(storeValue.length);
