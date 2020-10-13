@@ -61,6 +61,7 @@
     return {
       message: tempMessage,
       emotes: emotes.map((m) => m.emoteImageTag as string),
+      type: event.type,
     };
   }
 
@@ -190,6 +191,11 @@
     font-weight: var(--font-weight-normal);
   }
 
+  :global(.message-action) {
+    color: var(--yellow) !important;
+    font-style: italic;
+  }
+
   :global(.message-startsWithTag .tag):first-of-type {
     padding-left: 0;
   }
@@ -244,6 +250,7 @@
 
     <div
       class="message"
+      class:message-action={processedChat.type === 'action'}
       class:message-startsWithTag={processedChat.message.startsWith('<span class="tag">')}>
       {@html processedChat.message}
     </div>

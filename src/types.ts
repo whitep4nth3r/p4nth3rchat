@@ -13,6 +13,7 @@ export interface ChatMessageData {
   emotes?: {
     [emoteid: string]: string[];
   };
+  type: string | undefined;
 }
 
 export enum PermittedEvents {

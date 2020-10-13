@@ -16,8 +16,10 @@
   //TODO use ryan's safe data thing
   socket.onmessage = (data) => {
     const event = JSON.parse(data.data).event;
+
     if (event === PermittedEvents.ChatMessage) {
       const newMessage = JSON.parse(data.data).data;
+
       if (newMessage) {
         writeable.update((messageQueue) => {
           // get only the last
@@ -33,8 +35,6 @@
   };
 
   writeable.subscribe((storeValue: ChatMessageData[]) => {
-    console.log(storeValue.length);
-
     messageQueue = storeValue;
   });
 </script>
