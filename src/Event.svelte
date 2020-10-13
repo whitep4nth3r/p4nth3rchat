@@ -189,6 +189,7 @@
     word-break: break-word;
     line-height: 1.6rem;
     font-weight: var(--font-weight-normal);
+    width: 100%;
   }
 
   :global(.message-action) {
