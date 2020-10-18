@@ -87,19 +87,26 @@
     --top-border-size: 6px;
   }
 
-  @keyframes slideIn {
+  @keyframes slideInLeft {
     0% {
-      transform: translateX(-400px);
-      opacity: 0;
+      transform: translate3d(-100%,0,0);
     }
     100% {
-      transform: translateX(0);
-      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes slideOutLeft {
+    0% {
+      transform: none;
+    }
+    100% {
+      transform: translate3d(-100%,0,0);
     }
   }
 
   .event {
-    animation: slideIn 0.2s ease-in-out;
+    animation: slideInLeft .3s ease forwards, slideOutLeft 0.5s ease 10000ms forwards;
     background-color: var(--black);
     display: flex;
     flex-direction: row;
