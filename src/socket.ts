@@ -1,11 +1,12 @@
 import { PermittedEvents } from './types';
-import type { ChatMessageData } from './types';
+import type { ChatMessageData, BroadcasterFollowData } from './types';
 import type { Writable } from 'svelte/store';
 
 export function WebsocketConnect(
   url: string,
   maxMessageCount: number,
-  writableStore: Writable<ChatMessageData[]>
+  writableChatStore: Writable<ChatMessageData[]>,
+  writableAlertStore: Writable<BroadcasterFollowData[]>
 ) {
   var socket = new WebSocket(url);
 
@@ -23,11 +24,15 @@ export function WebsocketConnect(
     //TODO use ryan's safe data thing
     const event = JSON.parse(data.data).event;
 
+    if (event === PermittedEvents.BroadcasterFollow) {
+
+    }
+
     if (event === PermittedEvents.ChatMessage) {
       const newMessage = JSON.parse(data.data).data;
 
       if (newMessage) {
-        writableStore.update((messageQueue) => {
+        writableChatStore.update((messageQueue) => {
           const oldMessages = messageQueue.slice(
             Math.max(messageQueue.length - maxMessageCount, 0)
           );
@@ -44,7 +49,7 @@ export function WebsocketConnect(
       err.reason
     );
     setTimeout(function () {
-      WebsocketConnect(url, maxMessageCount, writableStore);
+      WebsocketConnect(url, maxMessageCount, writableChatStore, writableAlertStore);
     }, 1000);
   };
 

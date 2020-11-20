@@ -16,6 +16,13 @@ export interface ChatMessageData {
   type: string | undefined;
 }
 
+export interface BroadcasterFollowData {
+    followerUserId: string;
+    logoUrl: string;
+    followerName: string;
+}
+
 export enum PermittedEvents {
+  BroadcasterFollow = 'broadcasterfollow',
   ChatMessage = 'chatmessage',
 }

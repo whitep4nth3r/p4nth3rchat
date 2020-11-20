@@ -1,19 +1,33 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
-  import Event from './Event.svelte';
+  import ChatEvent from './events/ChatEvent.svelte';
+  import AlertEvent from './events/AlertEvent.svelte';
   import { WebsocketConnect } from './socket';
-  import type { ChatMessageData } from './types';
+  import type { ChatMessageData, BroadcasterFollowData } from './types';
 
   const MAX_MESSAGE_COUNT = 7;
-  let _writable = writable<ChatMessageData[]>([]);
+  let _writableChatStore = writable<ChatMessageData[]>([]);
+  let _writableAlertStore = writable<BroadcasterFollowData[]>([]);
   let messageQueue: ChatMessageData[] = [];
+  let alertQueue: BroadcasterFollowData[] = [];
 
-  _writable.update((storeValue) => [...storeValue]);
-  _writable.subscribe((storeValue: ChatMessageData[]) => {
+  _writableChatStore.update((storeValue) => [...storeValue]);
+  _writableChatStore.subscribe((storeValue: ChatMessageData[]) => {
     messageQueue = storeValue;
   });
 
-  WebsocketConnect(process.env.MAINFRAME_URL, MAX_MESSAGE_COUNT, _writable);
+  _writableAlertStore.update((storeValue) => [...storeValue]);
+  _writableAlertStore.subscribe((storeValue: BroadcasterFollowData[]) => {
+    alertQueue = storeValue;
+  });
+
+  WebsocketConnect(process.env.MAINFRAME_URL, MAX_MESSAGE_COUNT, _writableChatStore, _writableAlertStore);
+
+  let alert_event = {
+    followerUserId: '123',
+    followerName: '__thatn00b',
+    logoUrl: 'https://static-cdn.jtvnw.net/jtv_user_pictures/d6ad7e06-0362-48c6-a0c1-048c8d3ec0fc-profile_image-300x300.png'
+  }
 </script>
 
 <style>
@@ -25,12 +39,27 @@
     bottom: 0;
     width: 400px;
   }
+
+  .alertQueue {
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>
 
 <main>
+  <div class="alertQueue">
+    <AlertEvent {alert_event} />
+
+    {#each alertQueue as alert_event, index (alert_event.followerUserId)}
+      <AlertEvent {alert_event} />
+    {/each}
+  </div>
   <div class="messageQueue">
-    {#each messageQueue as event, index (event.messageId)}
-      <Event {event} />
+    {#each messageQueue as chat_event, index (chat_event.messageId)}
+      <ChatEvent {chat_event} />
     {/each}
   </div>
 </main>

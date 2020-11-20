@@ -1,21 +1,21 @@
 <script lang="ts">
-  import type { ChatMessageData } from './types';
+  import type { ChatMessageData } from '../types';
   import { loop_guard } from 'svelte/internal';
   import sanitizeHtml from 'sanitize-html';
 
-  export let event: ChatMessageData;
+  export let chat_event: ChatMessageData;
 
-  function processChat(event: ChatMessageData) {
-    let tempMessage: string = event.message.replace(/<img/g, '<DEL');
+  function processChat(chat_event: ChatMessageData) {
+    let tempMessage: string = chat_event.message.replace(/<img/g, '<DEL');
 
     const emotes = [];
 
     // If the message has emotes, modify message to include img tags to the emote
-    if (event.emotes) {
+    if (chat_event.emotes) {
       let emoteSet = [];
 
-      for (const emote of Object.keys(event.emotes)) {
-        const emoteLocations = event.emotes[emote];
+      for (const emote of Object.keys(chat_event.emotes)) {
+        const emoteLocations = chat_event.emotes[emote];
         emoteLocations.forEach((location) => {
           emoteSet.push(generateEmote(emote, location));
         });
@@ -61,7 +61,7 @@
     return {
       message: tempMessage,
       emotes: emotes.map((m) => m.emoteImageTag as string),
-      type: event.type,
+      type: chat_event.type,
     };
   }
 
@@ -79,7 +79,7 @@
     };
   }
 
-  const processedChat = processChat(event);
+  const processedChat = processChat(chat_event);
 </script>
 
 <style>
@@ -250,21 +250,21 @@
 
 <div
   class="event"
-  class:event-vip={event.isVip === true}
-  class:event-mod={event.isMod === true}
-  class:event-broadcaster={event.isBroadcaster === true}
-  class:event-subscriber={event.isSubscriber}>
+  class:event-vip={chat_event.isVip === true}
+  class:event-mod={chat_event.isMod === true}
+  class:event-broadcaster={chat_event.isBroadcaster === true}
+  class:event-subscriber={chat_event.isSubscriber}>
   <div
     class="avatarContainer"
-    style={`background-image: url(${event.logoUrl});`} />
+    style={`background-image: url(${chat_event.logoUrl});`} />
 
   <div class="messageContainer">
     <p
       class="displayName"
-      class:displayName-vip={event.isVip === true}
-      class:displayName-mod={event.isMod === true}
-      class:displayName-broadcaster={event.isBroadcaster === true}>
-      @{event.displayName}
+      class:displayName-vip={chat_event.isVip === true}
+      class:displayName-mod={chat_event.isMod === true}
+      class:displayName-broadcaster={chat_event.isBroadcaster === true}>
+      @{chat_event.displayName}
     </p>
 
     <div
