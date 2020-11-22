@@ -7,6 +7,7 @@
 <style>
   :root {
     --cb-animation: cubic-bezier(.51,.56,.11,1.03);
+    --alert-display-time: 2000ms; /* will be 10000ms */
   }
 
   @keyframes dropDownBounce {
@@ -30,6 +31,15 @@
     }
     100% { 
       transform: translateY(0); 
+    }
+  }
+
+  @keyframes dropDownCompletely {
+    0% {
+      transform: none;
+    }
+    100% {
+      transform: translateY(800px);
     }
   }
 
@@ -57,14 +67,34 @@
     }
   }
 
+  @keyframes slideOutLeft {
+    0% {
+      transform: none;
+    }
+    100% {
+      transform: translate3d(-100%,0,0);
+    }
+  }
+
   @keyframes growAndRotate {
     0% {
       width: 0;
-      transform: rotate(360deg);
+      transform: rotate(360deg)  translateY(-200px);
     }
     100% {
       width: 300px;
       transform: none;
+    }
+  }
+
+  @keyframes shrinkAndRotateAndUp {
+    0% {
+      width: 300px;
+      transform: none;
+    }
+    100% {
+      width: 0;
+      transform: rotate(360deg) translateY(-200px);
     }
   }
 
@@ -85,7 +115,7 @@
   }
 
   .alert__logo {
-    animation: growAndRotate 0.6s var(--cb-animation);
+    animation: growAndRotate 0.6s var(--cb-animation), shrinkAndRotateAndUp 0.5s ease var(--alert-display-time) forwards;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -101,7 +131,7 @@
   }
 
   .alert__nameContainer {
-    animation: bounceInRight 1s var(--cb-animation), scrollUpSlowly 20s var(--cb-animation);
+    animation: bounceInRight 1s var(--cb-animation), scrollUpSlowly 20s var(--cb-animation), slideOutLeft 0.5s ease var(--alert-display-time) forwards;
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -136,7 +166,7 @@
   }
 
   .alert__banner {
-    animation: dropDownBounce 0.8s ease-in-out;
+    animation: dropDownBounce 0.8s ease-in-out, dropDownCompletely 0.5s ease var(--alert-display-time) forwards;
     width: 100%;
     z-index: 2;
   }
