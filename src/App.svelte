@@ -25,8 +25,8 @@
 
   let alert_event = {
     followerUserId: '123',
-    followerName: '__thatn00b',
-    logoUrl: 'https://static-cdn.jtvnw.net/jtv_user_pictures/d6ad7e06-0362-48c6-a0c1-048c8d3ec0fc-profile_image-300x300.png'
+    followerName: 'paranoidandroidiot',
+    logoUrl: 'https://static-cdn.jtvnw.net/jtv_user_pictures/403c25d0-3f5c-4b49-936e-32ffbc113d51-profile_image-300x300.png'
   }
 </script>
 

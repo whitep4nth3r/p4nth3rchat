@@ -25,7 +25,9 @@ export function WebsocketConnect(
     const event = JSON.parse(data.data).event;
 
     if (event === PermittedEvents.BroadcasterFollow) {
-
+      const newMessage = JSON.parse(data.data).data;
+      console.log('ERHEHERHEHREHRHHEEHRHEHREHE')
+      console.log(newMessage);
     }
 
     if (event === PermittedEvents.ChatMessage) {
