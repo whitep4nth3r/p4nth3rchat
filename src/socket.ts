@@ -3,6 +3,8 @@ import type { ChatMessageData, BroadcasterFollowData } from './types';
 import type { Writable } from 'svelte/store';
 import { AlertQueue } from './AlertQueue'
 
+// TODO: @negue for the next time, add an interval that fills the follower queue
+
 export function WebsocketConnect(
   url: string,
   maxMessageCount: number,
@@ -15,18 +17,12 @@ export function WebsocketConnect(
 
   socket.onopen = function () {
     console.log('Socket is open!');
-    // subscribe to some channels
     socket.send(
       JSON.stringify({
         connected: 'I did connect, yo!',
       })
     );
   };
-
-    //2. then let the new queue be adding the new items - 
-  
-  //3. once the new queue itself will be called this one will fill the svelte store one 
-  //- and at the end the view will either show the current item or hide it
 
   socket.onmessage = (data) => {
     //TODO use ryan's safe data thing
@@ -38,26 +34,18 @@ export function WebsocketConnect(
       const newAlert = JSON.parse(data.data).data;
 
       if (newAlert) {
-        console.info({newAlert});
-
         // New message comes in, pushed to the queue
         displayAlertQueue.push(() => {
-
-          console.info('queue item called', writableAlertStore);
-
           // once the queue item is "called", it is updating the store
           writableAlertStore.update((alertStore) => {
-
-            console.info('updated the store itself');
-
             return newAlert;
           });
-
-          // Profit
         });
 
         displayAlertQueue.push(() => {
-          // do nothing
+          writableAlertStore.update((alertStore) => {
+            return null;
+          });
         });
       }
     }
@@ -94,4 +82,3 @@ export function WebsocketConnect(
 }
 
 
-// for the next time, add an interval that fills the follower queue

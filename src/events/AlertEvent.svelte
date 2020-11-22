@@ -7,7 +7,7 @@
 <style>
   :root {
     --cb-animation: cubic-bezier(.51,.56,.11,1.03);
-    --alert-display-time: 5000ms;
+    --alert-display-time: 2900ms;
   }
 
   @keyframes dropDownBounce {
@@ -115,7 +115,7 @@
   }
 
   .alert__logo {
-    /* animation: growAndRotate 0.6s var(--cb-animation), shrinkAndRotateAndUp 0.5s ease var(--alert-display-time) forwards; */
+    animation: growAndRotate 0.6s var(--cb-animation), shrinkAndRotateAndUp 0.5s ease var(--alert-display-time) forwards;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -131,7 +131,7 @@
   }
 
   .alert__nameContainer {
-    /* animation: bounceInRight 1s var(--cb-animation), scrollUpSlowly 20s var(--cb-animation), slideOutLeft 0.5s ease var(--alert-display-time) forwards; */
+    animation: bounceInRight 1s var(--cb-animation), scrollUpSlowly 20s var(--cb-animation), slideOutLeft 0.5s ease var(--alert-display-time) forwards;
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -166,7 +166,7 @@
   }
 
   .alert__banner {
-    /* animation: dropDownBounce 0.8s ease-in-out, swoopUp 0.5s ease var(--alert-display-time) forwards; */
+    animation: dropDownBounce 0.8s ease-in-out, swoopUp 0.5s ease var(--alert-display-time) forwards;
     width: 100%;
     z-index: 2;
   }

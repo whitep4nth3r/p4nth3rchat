@@ -5,17 +5,6 @@
   import { WebsocketConnect } from './socket';
   import type { ChatMessageData, BroadcasterFollowData } from './types';
 
-  //1. soo currently you have the svelte Store in your App.svelte file - 
-  //this will stay there BUT change that back to only have one item and thats it - 
-  
-  //2. then let the new queue be adding the new items - 
-  
-  //3. once the new queue itself will be called this one will fill the svelte store one 
-  //- and at the end the view will either show the current item or hide it
-
-  //WS -> new queue -> queue callback -> svelte store update
-
-
   const MAX_MESSAGE_COUNT = 7;
   let _writableChatStore = writable<ChatMessageData[]>([]);
   let _writableAlertStore = writable<BroadcasterFollowData>(null);
@@ -40,7 +29,7 @@
   WebsocketConnect(process.env.MAINFRAME_URL, MAX_MESSAGE_COUNT, _writableChatStore, _writableAlertStore);
 
   
-
+  // for debug
   // let alert_event = {
   //   followerUserId: '123',
   //   followerName: 'paranoidandroidiot',
@@ -69,6 +58,8 @@
 
 <main>
   <div class="alertQueue">
+    <!-- for debug -->
+    <!-- <AlertEvent alertToView={alert_event} /> -->
     {#each currentAlertToView as alertToView}
         <AlertEvent alertToView={alertToView} />
     {/each}
