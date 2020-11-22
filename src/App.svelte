@@ -5,29 +5,47 @@
   import { WebsocketConnect } from './socket';
   import type { ChatMessageData, BroadcasterFollowData } from './types';
 
+  //1. soo currently you have the svelte Store in your App.svelte file - 
+  //this will stay there BUT change that back to only have one item and thats it - 
+  
+  //2. then let the new queue be adding the new items - 
+  
+  //3. once the new queue itself will be called this one will fill the svelte store one 
+  //- and at the end the view will either show the current item or hide it
+
+  //WS -> new queue -> queue callback -> svelte store update
+
+
   const MAX_MESSAGE_COUNT = 7;
   let _writableChatStore = writable<ChatMessageData[]>([]);
-  let _writableAlertStore = writable<BroadcasterFollowData[]>([]);
+  let _writableAlertStore = writable<BroadcasterFollowData>(null);
   let messageQueue: ChatMessageData[] = [];
-  let alertQueue: BroadcasterFollowData[] = [];
+  let currentAlertToView: BroadcasterFollowData[] = [];
 
   _writableChatStore.update((storeValue) => [...storeValue]);
   _writableChatStore.subscribe((storeValue: ChatMessageData[]) => {
     messageQueue = storeValue;
   });
 
-  _writableAlertStore.update((storeValue) => [...storeValue]);
-  _writableAlertStore.subscribe((storeValue: BroadcasterFollowData[]) => {
-    alertQueue = storeValue;
+  _writableAlertStore.update((storeValue) => storeValue);
+  _writableAlertStore.subscribe((storeValue: BroadcasterFollowData) => {
+    console.info('alert store updated', storeValue);
+    if (storeValue) {
+      currentAlertToView = [storeValue];
+    } else {
+      currentAlertToView = [];
+    }
   });
 
   WebsocketConnect(process.env.MAINFRAME_URL, MAX_MESSAGE_COUNT, _writableChatStore, _writableAlertStore);
 
-  let alert_event = {
-    followerUserId: '123',
-    followerName: 'paranoidandroidiot',
-    logoUrl: 'https://static-cdn.jtvnw.net/jtv_user_pictures/403c25d0-3f5c-4b49-936e-32ffbc113d51-profile_image-300x300.png'
-  }
+  
+
+  // let alert_event = {
+  //   followerUserId: '123',
+  //   followerName: 'paranoidandroidiot',
+  //   logoUrl: 'https://static-cdn.jtvnw.net/jtv_user_pictures/403c25d0-3f5c-4b49-936e-32ffbc113d51-profile_image-300x300.png'
+  // }
 </script>
 
 <style>
@@ -51,10 +69,8 @@
 
 <main>
   <div class="alertQueue">
-    <AlertEvent {alert_event} />
-
-    {#each alertQueue as alert_event, index (alert_event.followerUserId)}
-      <AlertEvent {alert_event} />
+    {#each currentAlertToView as alertToView}
+        <AlertEvent alertToView={alertToView} />
     {/each}
   </div>
   <div class="messageQueue">

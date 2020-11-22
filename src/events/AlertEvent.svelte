@@ -1,13 +1,13 @@
 <script lang="ts">
   import type { BroadcasterFollowData } from "../types";
 
-  export let alert_event: BroadcasterFollowData;
+  export let alertToView: BroadcasterFollowData;
 </script>
 
 <style>
   :root {
     --cb-animation: cubic-bezier(.51,.56,.11,1.03);
-    --alert-display-time: 2000ms; /* will be 10000ms */
+    --alert-display-time: 5000ms;
   }
 
   @keyframes dropDownBounce {
@@ -34,12 +34,12 @@
     }
   }
 
-  @keyframes dropDownCompletely {
+  @keyframes swoopUp {
     0% {
-      transform: none;
+      transform: translateY(0);
     }
     100% {
-      transform: translateY(800px);
+      transform: scale(1,1) translateY(-100%); ;
     }
   }
 
@@ -115,7 +115,7 @@
   }
 
   .alert__logo {
-    animation: growAndRotate 0.6s var(--cb-animation), shrinkAndRotateAndUp 0.5s ease var(--alert-display-time) forwards;
+    /* animation: growAndRotate 0.6s var(--cb-animation), shrinkAndRotateAndUp 0.5s ease var(--alert-display-time) forwards; */
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -131,7 +131,7 @@
   }
 
   .alert__nameContainer {
-    animation: bounceInRight 1s var(--cb-animation), scrollUpSlowly 20s var(--cb-animation), slideOutLeft 0.5s ease var(--alert-display-time) forwards;
+    /* animation: bounceInRight 1s var(--cb-animation), scrollUpSlowly 20s var(--cb-animation), slideOutLeft 0.5s ease var(--alert-display-time) forwards; */
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -166,7 +166,7 @@
   }
 
   .alert__banner {
-    animation: dropDownBounce 0.8s ease-in-out, dropDownCompletely 0.5s ease var(--alert-display-time) forwards;
+    /* animation: dropDownBounce 0.8s ease-in-out, swoopUp 0.5s ease var(--alert-display-time) forwards; */
     width: 100%;
     z-index: 2;
   }
@@ -205,11 +205,11 @@
     </svg>
   </div>
     
-  <img src={alert_event.logoUrl} alt={alert_event.followerName} class="alert__logo" />
+  <img src={alertToView.logoUrl} alt={alertToView.followerName} class="alert__logo" />
 
   <h1 class="alert__nameContainer">
     <span class="alert__name">
-      {alert_event.followerName}
+      {alertToView.followerName}
     </span>
   </h1>
 </div>

@@ -1,13 +1,16 @@
 import { PermittedEvents } from './types';
 import type { ChatMessageData, BroadcasterFollowData } from './types';
 import type { Writable } from 'svelte/store';
+import { AlertQueue } from './AlertQueue'
 
 export function WebsocketConnect(
   url: string,
   maxMessageCount: number,
   writableChatStore: Writable<ChatMessageData[]>,
-  writableAlertStore: Writable<BroadcasterFollowData[]>
-) {
+  writableAlertStore: Writable<BroadcasterFollowData>
+  ) {
+
+  let displayAlertQueue = AlertQueue(3000);
   var socket = new WebSocket(url);
 
   socket.onopen = function () {
@@ -20,14 +23,43 @@ export function WebsocketConnect(
     );
   };
 
+    //2. then let the new queue be adding the new items - 
+  
+  //3. once the new queue itself will be called this one will fill the svelte store one 
+  //- and at the end the view will either show the current item or hide it
+
   socket.onmessage = (data) => {
     //TODO use ryan's safe data thing
     const event = JSON.parse(data.data).event;
 
     if (event === PermittedEvents.BroadcasterFollow) {
-      const newMessage = JSON.parse(data.data).data;
-      console.log('ERHEHERHEHREHRHHEEHRHEHREHE')
-      console.log(newMessage);
+      console.log('FOLLOW RECEIVED');
+      
+      const newAlert = JSON.parse(data.data).data;
+
+      if (newAlert) {
+        console.info({newAlert});
+
+        // New message comes in, pushed to the queue
+        displayAlertQueue.push(() => {
+
+          console.info('queue item called', writableAlertStore);
+
+          // once the queue item is "called", it is updating the store
+          writableAlertStore.update((alertStore) => {
+
+            console.info('updated the store itself');
+
+            return newAlert;
+          });
+
+          // Profit
+        });
+
+        displayAlertQueue.push(() => {
+          // do nothing
+        });
+      }
     }
 
     if (event === PermittedEvents.ChatMessage) {
@@ -60,3 +92,6 @@ export function WebsocketConnect(
     socket.close();
   };
 }
+
+
+// for the next time, add an interval that fills the follower queue

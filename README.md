@@ -1,4 +1,11 @@
 # p4nth3rChat
+
+- [Getting started with development](./docs/getting-started.md)
+- [Twitch chat events](./docs/chat-events.md)
+- [Twitch stream alerts](./docs/stream-alerts.md)
+
+
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
