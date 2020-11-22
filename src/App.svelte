@@ -18,7 +18,6 @@
 
   _writableAlertStore.update((storeValue) => storeValue);
   _writableAlertStore.subscribe((storeValue: BroadcasterFollowData) => {
-    console.info('alert store updated', storeValue);
     if (storeValue) {
       currentAlertToView = [storeValue];
     } else {
