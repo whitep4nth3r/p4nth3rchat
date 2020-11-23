@@ -1,7 +1,6 @@
 <script lang="ts">
-  import type { BroadcasterFollowData } from "../types";
-
-  export let alertToView: BroadcasterFollowData;
+  import type { FollowEvent } from "../types";
+  export let alert: FollowEvent;
 </script>
 
 <style>
@@ -205,11 +204,11 @@
     </svg>
   </div>
     
-  <img src={alertToView.logoUrl} alt={alertToView.followerName} class="alert__logo" />
+  <img src={alert.logoUrl} alt={alert.followerName} class="alert__logo" />
 
   <h1 class="alert__nameContainer">
     <span class="alert__name">
-      {alertToView.followerName}
+      {alert.followerName}
     </span>
   </h1>
 </div>

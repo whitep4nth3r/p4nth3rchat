@@ -16,13 +16,21 @@ export interface ChatMessageData {
   type: string | undefined;
 }
 
-export interface BroadcasterFollowData {
+export interface FollowEvent {
     followerUserId: string;
     logoUrl: string;
     followerName: string;
 }
 
-export enum PermittedEvents {
+export interface HostEvent {
+  viewerCount: number;
+  hoster: string;
+}
+
+export enum Events {
   BroadcasterFollow = 'broadcasterfollow',
   ChatMessage = 'chatmessage',
+  Host = 'host',
 }
+
+export type AlertQueueEvent = FollowEvent | HostEvent;

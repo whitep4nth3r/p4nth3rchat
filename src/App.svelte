@@ -1,15 +1,15 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
   import ChatEvent from './events/ChatEvent.svelte';
-  import AlertEvent from './events/AlertEvent.svelte';
-  import { WebsocketConnect } from './socket';
-  import type { ChatMessageData, BroadcasterFollowData } from './types';
+  import FollowEventDisplay from './events/FollowEventDisplay.svelte';
+  import { EventReceiver } from './EventReceiver';
+  import type { ChatMessageData, FollowEvent } from './types';
 
   const MAX_MESSAGE_COUNT = 7;
   let _writableChatStore = writable<ChatMessageData[]>([]);
-  let _writableAlertStore = writable<BroadcasterFollowData>(null);
+  let _writableAlertStore = writable<FollowEvent>(null);
   let messageQueue: ChatMessageData[] = [];
-  let currentAlertToView: BroadcasterFollowData[] = [];
+  let currentAlertToView: FollowEvent[] = [];
 
   _writableChatStore.update((storeValue) => [...storeValue]);
   _writableChatStore.subscribe((storeValue: ChatMessageData[]) => {
@@ -17,7 +17,7 @@
   });
 
   _writableAlertStore.update((storeValue) => storeValue);
-  _writableAlertStore.subscribe((storeValue: BroadcasterFollowData) => {
+  _writableAlertStore.subscribe((storeValue: FollowEvent) => {
     if (storeValue) {
       currentAlertToView = [storeValue];
     } else {
@@ -25,7 +25,7 @@
     }
   });
 
-  WebsocketConnect(process.env.MAINFRAME_URL, MAX_MESSAGE_COUNT, _writableChatStore, _writableAlertStore);
+  EventReceiver(process.env.MAINFRAME_URL, MAX_MESSAGE_COUNT, _writableChatStore, _writableAlertStore);
 
   
   // for debug
@@ -58,9 +58,9 @@
 <main>
   <div class="alertQueue">
     <!-- for debug -->
-    <!-- <AlertEvent alertToView={alert_event} /> -->
-    {#each currentAlertToView as alertToView}
-        <AlertEvent alertToView={alertToView} />
+    <!-- <FollowEventDisplay alertToView={alert_event} /> -->
+    {#each currentAlertToView as alert}
+        <FollowEventDisplay alert={alert} />
     {/each}
   </div>
   <div class="messageQueue">
