@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { ChatMessageData } from '../types';
+  import type { ChatMessageEvent } from '../types';
   import { loop_guard } from 'svelte/internal';
   import sanitizeHtml from 'sanitize-html';
 
-  export let chat_event: ChatMessageData;
+  export let chat_event: ChatMessageEvent;
 
-  function processChat(chat_event: ChatMessageData) {
+  function processChat(chat_event: ChatMessageEvent) {
     let tempMessage: string = chat_event.message.replace(/<img/g, '<DEL');
 
     const emotes = [];

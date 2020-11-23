@@ -1,4 +1,4 @@
-export interface ChatMessageData {
+export interface ChatMessageEvent {
   userId: string;
   username: string;
   displayName: string;
@@ -17,20 +17,27 @@ export interface ChatMessageData {
 }
 
 export interface FollowEvent {
-    followerUserId: string;
-    logoUrl: string;
-    followerName: string;
+  followerUserId: string;
+  logoUrl: string;
+  followerName: string;
 }
 
 export interface HostEvent {
   viewerCount: number;
-  hoster: string;
+  hosterName: string;
+  logoUrl: string;
 }
 
 export enum Events {
-  BroadcasterFollow = 'broadcasterfollow',
-  ChatMessage = 'chatmessage',
-  Host = 'host',
+  Follow = "follow",
+  ChatMessage = "chatmessage",
+  Cheer = "cheer",
+  Sub = "sub"
 }
 
-export type AlertQueueEvent = FollowEvent | HostEvent;
+export interface AlertQueueEvent {
+  type: string;
+  data: FollowEvent | HostEvent;
+}
+
+export const MAX_MESSAGE_COUNT = 7;

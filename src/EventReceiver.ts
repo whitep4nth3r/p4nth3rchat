@@ -1,4 +1,4 @@
-import type { ChatMessageData, FollowEvent, HostEvent, AlertQueueEvent } from './types';
+import type { ChatMessageEvent, FollowEvent, HostEvent, AlertQueueEvent } from './types';
 import { Events } from './types'
 import type { Writable } from 'svelte/store';
 import { AlertQueue } from './AlertQueue'
@@ -6,7 +6,6 @@ import { AlertQueue } from './AlertQueue'
 let displayAlertQueue = AlertQueue(3000);
 
 // TODO: @negue for the next time, add an interval that fills the follower queue
-
 const addAlertToQueue = (store: Writable<AlertQueueEvent>, event: AlertQueueEvent) => {
   displayAlertQueue.push(() => {
     // once the queue item is "called", it is updating the store
@@ -29,10 +28,9 @@ const removeAlertOnNextCycle = (store: Writable<AlertQueueEvent>) => {
 export function EventReceiver(
   url: string,
   maxMessageCount: number,
-  writableChatStore: Writable<ChatMessageData[]>,
-  writableAlertStore: Writable<FollowEvent | HostEvent>
+  writableChatStore: Writable<ChatMessageEvent[]>,
+  writableAlertStore: Writable<AlertQueueEvent>
   ) {
-
 
   var socket = new WebSocket(url);
 
@@ -45,24 +43,20 @@ export function EventReceiver(
     );
   };
 
-  socket.onmessage = (data) => {
+  socket.onmessage = (data) => {    
     //TODO use ryan's safe data thing
     const event = JSON.parse(data.data).event;
 
     switch(event) {
-      case Events.Host:
-        const host = JSON.parse(data.data).data;
-
-        if (host) {
-          addAlertToQueue(writableAlertStore, host);
-          removeAlertOnNextCycle(writableAlertStore);
-        }
-      break;
-      case Events.BroadcasterFollow: 
+      case Events.Follow: 
         const newFollow = JSON.parse(data.data).data;
-
+        
         if (newFollow) {
-          addAlertToQueue(writableAlertStore, newFollow);
+          const newEvent: AlertQueueEvent = {
+            type: Events.Follow,
+            data: newFollow
+          }
+          addAlertToQueue(writableAlertStore, newEvent);
           removeAlertOnNextCycle(writableAlertStore);
         }
       break;
