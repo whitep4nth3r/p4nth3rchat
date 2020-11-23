@@ -19,6 +19,20 @@
           imgAlt: alert.data.cheererName,
           logoUrl: alert.data.logoUrl
         }
+      case Events.Sub:        
+        return {
+          banner: `sub temp`, 
+          footer: `..........`,
+          imgAlt: '.......',
+          logoUrl: alert.data.logoUrl
+        }
+      case Events.GiftSub:        
+        return {
+          banner: `gift sub temp`, 
+          footer: `..........`,
+          imgAlt: '.......',
+          logoUrl: alert.data.logoUrl
+        }
       default:
         return {
           banner: 'whitep4nth3r', 

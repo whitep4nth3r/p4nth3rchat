@@ -60,6 +60,29 @@ export function EventReceiver(
           removeAlertOnNextCycle(writableAlertStore);
         }
       break;
+      case Events.Sub: 
+        const newSub = JSON.parse(data.data).data;
+        
+        if (newSub) {
+          const newEvent: AlertQueueEvent = {
+            type: Events.Sub,
+            data: newSub
+          }
+          addAlertToQueue(writableAlertStore, newEvent);
+          removeAlertOnNextCycle(writableAlertStore);
+        }
+      case Events.GiftSub: 
+        const newGiftSub = JSON.parse(data.data).data;
+        
+        if (newGiftSub) {
+          const newEvent: AlertQueueEvent = {
+            type: Events.GiftSub,
+            data: newGiftSub
+          }
+          addAlertToQueue(writableAlertStore, newEvent);
+          removeAlertOnNextCycle(writableAlertStore);
+        }
+    break;
       case Events.ChatMessage:
         const newMessage = JSON.parse(data.data).data;
 
